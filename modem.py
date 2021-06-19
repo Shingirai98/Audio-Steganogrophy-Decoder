@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 from scipy.io import wavfile as wav
 from scipy.fftpack import rfft, irfft, fft, ifft, fftfreq
 import numpy as np
+from scipy import signal
 
 def modulate(data, sample_rate):
 
