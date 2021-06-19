@@ -12,7 +12,7 @@ class ASD:
     def encoder(self):
         rate, data = wav.read('./audios/swthemesong.wav')  # 2CH L,R
         data = data.T[0]
-        rate1, data1 = wav.read('./audios/.wav')  # 1CH
+        rate1, data1 = wav.read('./audios/vader.wav')  # 1CH
 
         modulated_d1 = modulate(data1, rate1)
         modulated_d1.resize(data.shape)
@@ -21,7 +21,7 @@ class ASD:
         wav.write(filename="./audios/asd1-swsteganograph.wav", rate=rate, data=final)
 
     def decoder(self):
-        rate, final = wav.read('./audios/swsteganograph.wav')  # 2CH L,R
+        rate, final = wav.read('./audios/asd1-swsteganograph.wav')  # 2CH L,R
 
         filtered = HPF(final, rate)
         demodulated = demodulate(filtered, rate)
