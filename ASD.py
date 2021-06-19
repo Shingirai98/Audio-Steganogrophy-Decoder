@@ -33,10 +33,10 @@ class ASD:
         plt.plot(np.arange(data1.size), data1)
         plot3 = plt.figure(3)
         plt.title("Modulated Secret")
-        plt.plot(np.arange(modulated_d1.size), modulated_d1)
+        plt.plot(np.arange(modulated_d1[:60000].size), modulated_d1[:60000]) #plot only first 60K compare
         plot4 = plt.figure(4)
         plt.title("Stegonagraph")
-        plt.plot(np.arange(final.size), final)
+        plt.plot(np.arange(final[:60000].size), final[:60000]) #plot only first 60K compare
         plt.show()
 
         wav.write(filename="./audios/asd0-modulated_secret.wav", rate=rate1, data=modulated_d1)
