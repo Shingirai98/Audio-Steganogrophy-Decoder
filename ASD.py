@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-from scipy import signal
 from modem import modulate, demodulate, HPF
 from scipy.io import wavfile as wav
 from scipy.fftpack import rfft, irfft, fft, ifft, fftfreq
@@ -26,7 +25,7 @@ class ASD:
 
         filtered = HPF(final, rate)
         demodulated = demodulate(filtered, rate)
-        wav.write(filename="./audios/filtered.wav", rate=rate, data=demodulated)
+        wav.write(filename="./audios/asd2-demodulated.wav", rate=rate, data=demodulated)
 
 
 if __name__ == "__main__":
