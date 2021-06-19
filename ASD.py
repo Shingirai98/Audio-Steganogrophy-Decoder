@@ -25,6 +25,21 @@ class ASD:
         final = data + modulated_d1
         t1 = time.time() - temp_time
 
+        plot1 = plt.figure(1)
+        plt.title("Carrier audio")
+        plt.plot(np.arange(data.size), data)
+        plot2 = plt.figure(2)
+        plt.title("Secret")
+        plt.plot(np.arange(data1.size), data1)
+        plot3 = plt.figure(3)
+        plt.title("Modulated Secret")
+        plt.plot(np.arange(modulated_d1.size), modulated_d1)
+        plot4 = plt.figure(4)
+        plt.title("Stegonagraph")
+        plt.plot(np.arange(final.size), final)
+        plt.show()
+
+        wav.write(filename="./audios/asd0-modulated_secret.wav", rate=rate1, data=modulated_d1)
         wav.write(filename="./audios/asd1-swsteganograph.wav", rate=rate, data=final)
         print(f"elapsed time for modulation: {t0} overlaying: {t1}")
 
@@ -32,9 +47,25 @@ class ASD:
     def decoder(self):
         rate, final = wav.read('./audios/asd1-swsteganograph.wav')  # 2CH L,R
 
-        filtered = HPF(final, rate)
-        demodulated = demodulate(filtered, rate)
-        wav.write(filename="./audios/asd2-demodulated.wav", rate=rate, data=demodulated)
+        temp_time = time.time()
+        filtered = hpf(final, rate)
+        t0 = time.time() - temp_time
+
+        temp_time = time.time()
+        demodulated = demodulate_old(filtered, rate)
+        t1 = time.time() - temp_time
+
+        plot1 = plt.figure(1)
+        plt.title("Filtered")
+        plt.plot(np.arange(filtered.size), filtered)
+        plot2 = plt.figure(2)
+        plt.title("Demodulated")
+        plt.plot(np.arange(demodulated.size), demodulated)
+        plt.show()
+
+        print(f"Filtering time: {t0} demodulation: {t1}")
+        wav.write(filename="./audios/asd3-filtered.wav", rate=rate, data=filtered)
+        wav.write(filename="./audios/asd3-demodulated.wav", rate=rate, data=demodulated)
 
 
 if __name__ == "__main__":
