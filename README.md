@@ -2,11 +2,17 @@
 
 ## How to run
 
-prerequisites: 
-1. python >=3.8.5
-2. sudo apt-get install python3-venv
+prerequisites: <br>
+1. python >=3.8.5 <br>
+2. sudo apt-get install python3-venv <br>
 
-git clone [url]
-cd Audio-Steganogrophy-Decoder
-make
-make run runEncoder
+```commandline
+
+$ git clone [url]
+$ cd Audio-Steganogrophy-Decoder
+$ make
+$ make run run
+```
+
+Check for output in audios folder.
+
