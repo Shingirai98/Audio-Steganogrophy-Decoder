@@ -64,7 +64,7 @@ class ASD:
         plt.show()
 
         print(f"Filtering time: {t0} demodulation: {t1}")
-        wav.write(filename="./audios/asd3-filtered.wav", rate=rate, data=filtered)
+        wav.write(filename="./audios/asd2-filtered.wav", rate=rate, data=filtered)
         wav.write(filename="./audios/asd3-demodulated.wav", rate=rate, data=demodulated)
 
 
