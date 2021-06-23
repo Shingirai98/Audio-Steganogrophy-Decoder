@@ -18,11 +18,11 @@ Check for output in audios folder.
 
 # Files
 
-##[ASD.py](ASD.py)
+## [ASD.py](ASD.py)
 
 - Contains the main Audio Steganography Encoder / Decoder class.
 
-###Methods:
+### Methods:
 
 1. Constructor - initializes the ASD object.
 2. encoder - encodes the secret audio into the carrier audio.
@@ -31,7 +31,7 @@ Check for output in audios folder.
 5. decoder_writer - writes out the decoded wav file
 6. visualizer - plots graphs of interest.
 
-##[modem.py](modem.py)
+## [modem.py](modem.py)
 
 1. modulate - newer reference frequency modulator
 2. modulate_old - old erroneous frequency modulator
@@ -45,5 +45,5 @@ Check for output in audios folder.
 ## Images Folder
 Images are well labelled and are self-explanatory. Exported from the program output.
 
-##Audios Folder
+## Audios Folder
 Source audios and program output audios prefixed by "asd-x" in the order of generation.
