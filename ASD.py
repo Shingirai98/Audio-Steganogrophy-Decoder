@@ -15,6 +15,7 @@ class ASD:
         self.modulated_d1 = self.final = None
         self.filtered = self.demodulated = None
         self.carrier = None
+        self.times = {"mod":[], "over":[], "filt":[], "demod":[] }
         pass
 
     def encoder(self):
@@ -33,10 +34,14 @@ class ASD:
         temp_time = time.time()
         self.final = self.data + self.modulated_d1
         t1 = time.time() - temp_time
+        #print(f"elapsed time for modulation: {t0} overlaying: {t1}")
+        self.times["mod"].append(t0)
+        self.times["over"].append(t1)
 
+
+    def encoder_writer(self):
         wav.write(filename="./audios/asd0-modulated_secret.wav", rate=self.rate1, data=self.modulated_d1)
         wav.write(filename="./audios/asd1-swsteganograph.wav", rate=self.rate, data=self.final)
-        print(f"elapsed time for modulation: {t0} overlaying: {t1}")
 
     def decoder(self):
         rate, final = wav.read('./audios/asd1-swsteganograph.wav')  # 2CH L,R
@@ -48,8 +53,12 @@ class ASD:
         temp_time = time.time()
         self.demodulated = am_demodulator(self.filtered)
         t1 = time.time() - temp_time
+        #print(f"Filtering time: {t0} demodulation: {t1}")
+        self.times["filt"].append(t0)
+        self.times["demod"].append(t1)
 
-        print(f"Filtering time: {t0} demodulation: {t1}")
+
+    def decoder_writer(self):
         wav.write(filename="./audios/asd2-filtered.wav", rate=self.rate, data=self.filtered)
         wav.write(filename="./audios/asd3-demodulated.wav", rate=self.rate, data=self.demodulated)
 
@@ -110,6 +119,12 @@ class ASD:
 
 if __name__ == "__main__":
     asd = ASD()
-    asd.encoder()
-    asd.decoder()
+    for i in range(10):
+        asd.encoder()
+    asd.encoder_writer()
+    for i in range(10):
+        asd.decoder()
+    asd.decoder_writer()
     asd.visualizer()
+    print(asd.times)
+
