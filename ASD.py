@@ -45,11 +45,37 @@ class ASD:
         t1 = time.time() - temp_time
 
         print(f"Filtering time: {t0} demodulation: {t1}")
-        wav.write(filename="./audios/asd2-filtered.wav", rate=rate, data=filtered)
-        wav.write(filename="./audios/asd3-demodulated.wav", rate=rate, data=demodulated)
+        wav.write(filename="./audios/asd2-filtered.wav", rate=rate, data=self.filtered)
+        wav.write(filename="./audios/asd3-demodulated.wav", rate=rate, data=self.demodulated)
+
+    def visualizer(self):
+        # ENCODING
+        plot1 = plt.figure(1)
+        plt.title("Carrier audio")
+        plt.plot(np.arange(self.data.size), self.data)
+        plot2 = plt.figure(2)
+        plt.title("Secret")
+        plt.plot(np.arange(self.data1.size), self.data1)
+        plot3 = plt.figure(3)
+        plt.title("Modulated Secret")
+        plt.plot(np.arange(self.modulated_d1[:60000].size), self.modulated_d1[:60000])  # plot only first 60K compare
+        plot4 = plt.figure(4)
+        plt.title("Stegonagraph")
+        plt.plot(np.arange(self.final[:60000].size), self.final[:60000])  # plot only first 60K compare
+
+        # DECODING
+        plot5 = plt.figure(5)
+        plt.title("Filtered")
+        plt.plot(np.arange(self.filtered.size), self.filtered)
+        plot6 = plt.figure(6)
+        plt.title("Demodulated")
+        plt.plot(np.arange(self.demodulated.size), self.demodulated)
+        plt.show()
 
 
 if __name__ == "__main__":
     asd = ASD()
     asd.encoder()
     asd.decoder()
+    asd.visualizer()
+
