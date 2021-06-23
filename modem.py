@@ -117,3 +117,25 @@ def hpf(data, rate):
     sos = signal.butter(10, 11020, 'hp', fs=rate, output='sos')
     filtered = signal.sosfilt(sos, data)
     return filtered.astype(data.dtype)
+
+def lpf(data, rate):
+    sos = signal.butter(10, 10000, 'lp', fs=rate, output='sos')
+    filtered = signal.sosfilt(sos, data)
+    return filtered.astype(data.dtype)
+
+def am_modulator(data, modulation_index=0.5):
+    t = np.linspace(0, 1, data.size)
+    f_c = 20000
+    A_c = 10
+    carrier = A_c * np.cos(2 * np.pi * f_c * t)
+    product = ((1 + modulation_index) * data) * carrier
+    return product.astype(data.dtype), carrier
+
+
+def am_demodulator(modulated_data, modulation_index=0.5):
+    t = np.linspace(0, 1, modulated_data.size)
+    f_c = 20000
+    A_c = 10
+    carrier = A_c * np.cos(2 * np.pi * f_c * t)
+    q = ((modulated_data / carrier) - 1) / modulation_index
+    return q.astype(modulated_data.dtype)
