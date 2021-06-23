@@ -1,4 +1,4 @@
-# Audio-Steganogrophy-Decoder
+# Audio-Steganogrophy-Encoder/Decoder
 
 ## How to run
 
