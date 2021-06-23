@@ -10,6 +10,7 @@ import time
 
 class ASD:
     def __init__(self):
+        # Initial variable assignment
         self.rate = self.rate1 = None
         self.data = self.data1 = None
         self.modulated_d1 = self.final = None
@@ -18,20 +19,30 @@ class ASD:
         self.times = {"mod":[], "over":[], "filt":[], "demod":[] }
         pass
 
+    # function to encode audio with secret message
     def encoder(self):
+        # read the main audio file
         self.rate, self.data = wav.read('./audios/swthemesong.wav')  # 2CH L,R
         self.data = self.data.T[0]
-        self.rate1, self.data1 = wav.read('./audios/vader.wav')  # 1CH
 
+        # read the secret message audio file
+        self.rate1, self.data1 = wav.read('./audios/vader.wav')  # 1CH
         temp_time = time.time()
+
+        # Add a low pass filter to both to remove audio in high frequency bands
         self.data = lpf(self.data, self.rate)
         self.data1 = lpf(self.data1, self.rate1)
+
+        # modulate the secret message to push it to a high frequency band
         self.modulated_d1, self.carrier = am_modulator(self.data1)
         t0 = time.time() - temp_time
+
 
         self.modulated_d1.resize(self.data.shape)
 
         temp_time = time.time()
+
+        # superpose the modulated secret audio file to the audible audio file
         self.final = self.data + self.modulated_d1
         t1 = time.time() - temp_time
         #print(f"elapsed time for modulation: {t0} overlaying: {t1}")
@@ -44,13 +55,19 @@ class ASD:
         wav.write(filename="./audios/asd1-swsteganograph.wav", rate=self.rate, data=self.final)
 
     def decoder(self):
+        # read the combined audio file
         rate, final = wav.read('./audios/asd1-swsteganograph.wav')  # 2CH L,R
 
         temp_time = time.time()
+
+        # add a high pass filter to the audio to remove the audible parts, leaving the secret message
         self.filtered = hpf(final, rate)
         t0 = time.time() - temp_time
 
         temp_time = time.time()
+
+
+        # demodulate the secret message to place it at the audible frequency range
         self.demodulated = am_demodulator(self.filtered)
         t1 = time.time() - temp_time
         #print(f"Filtering time: {t0} demodulation: {t1}")
@@ -64,6 +81,8 @@ class ASD:
 
     def visualizer(self):
         # ENCODING
+
+
         plot1 = plt.figure(1)
         plt.title("Carrier audio")
         plt.plot(np.arange(self.data.size), self.data)
