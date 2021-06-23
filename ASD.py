@@ -69,24 +69,28 @@ class ASD:
         plt.plot(np.arange(self.data.size), self.data)
         plt.ylabel('Amplitude')
         plt.xlabel('Time')
+        plt.rc('font', size=35)
 
         plot2 = plt.figure(2)
         plt.title("Secret Message Signal")
         plt.plot(np.arange(self.data1.size), self.data1)
         plt.ylabel('Amplitude')
         plt.xlabel('Time')
+        plt.rc('font', size=35)
 
         plot3 = plt.figure(3)
         plt.title("AM Secret Message signal")
         plt.plot(np.arange(self.modulated_d1[:60000].size), self.modulated_d1[:60000])  # plot only first 60K compare
         plt.ylabel('Amplitude')
         plt.xlabel('Time')
+        plt.rc('font', size=35)
 
         plot4 = plt.figure(4)
         plt.title("Steganography Audio (Secret+Carrier)")
         plt.plot(np.arange(self.final[:60000].size), self.final[:60000])  # plot only first 60K compare
         plt.ylabel('Amplitude')
         plt.xlabel('Time')
+        plt.rc('font', size=35)
 
         # DECODING
         plot5 = plt.figure(5)
@@ -94,35 +98,36 @@ class ASD:
         plt.plot(np.arange(self.filtered.size), self.filtered)
         plt.ylabel('Amplitude')
         plt.xlabel('Time')
+        plt.rc('font', size=35)
 
         plot6 = plt.figure(6)
         plt.title("Demodulated Secret Audio")
         plt.plot(np.arange(self.demodulated.size), self.demodulated)
         plt.ylabel('Amplitude')
         plt.xlabel('Time')
+        plt.rc('font', size=35)
 
         plot7 = plt.figure(7)
         plt.title("FFT Analysis")
-        plt.plot(linspace(-self.rate / 2, self.rate / 2, 46102), np.abs(fft(self.carrier)) * 10, color="purple")
-        plt.plot(linspace(-self.rate / 2, self.rate / 2, 5801472), np.abs(fft(self.modulated_d1)) * 10, color="red")
-        plt.plot(fftfreq(self.data1.shape[0]), np.abs(fft(self.data1)))
+        plt.plot(linspace(-self.rate / 2, self.rate / 2, 46102), np.abs(fft(self.carrier)) * 100, color="purple")
+        plt.plot(linspace(-self.rate / 2, self.rate / 2, 5801472), np.abs(fft(self.modulated_d1)) , color="red")
+        plt.plot(fftfreq(self.data1.shape[0]), np.abs(fft(self.data1*100)))
         plt.ylabel('Magnitude')
         plt.xlabel('Frequency')
+        plt.rc('font', size=35)
         plots = [plot1, plot2, plot3, plot4, plot5, plot6, plot7]
 
         for i in range(7):
             plots[i].set_size_inches(16, 9)
-            #plots[i].show()
-            plt.rc('font', size=35)
             plots[i].savefig(f'./images/ASD-{i + 1}.png', dpi=100)
 
 
 if __name__ == "__main__":
     asd = ASD()
-    for i in range(10):
+    for i in range(1):
         asd.encoder()
     asd.encoder_writer()
-    for i in range(10):
+    for i in range(1):
         asd.decoder()
     asd.decoder_writer()
     asd.visualizer()
